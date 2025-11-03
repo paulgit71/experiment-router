@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EU Research Experiment – Router</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: #0f172a;
+      background: radial-gradient(1200px 800px at 20% 10%, #e0f2fe 0%, transparent 60%),
+                  radial-gradient(1000px 700px at 80% 20%, #fae8ff 0%, transparent 60%),
+                  linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+    }
+    a { color: #4f46e5; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { min-height: 100%; display: grid; place-items: center; padding: 2rem 1rem; }
+    .card {
+      width: 100%; max-width: 860px; background: rgba(255,255,255,.85); backdrop-filter: blur(8px);
+      border-radius: 1.25rem; box-shadow: 0 20px 35px rgba(30, 41, 59, .15); border: 1px solid rgba(148, 163, 184, .25); overflow: hidden;
+    }
+    .card__header { padding: 1.25rem 1.5rem; background: linear-gradient(90deg, #6366f1, #8b5cf6, #06b6d4); color: #fff; }
+    .title { margin: 0; font-weight: 800; letter-spacing: .2px; }
+    .subtitle { margin: .25rem 0 0; opacity: .95; font-weight: 500; }
+    .card__body { padding: 1.5rem; }
+    .grid { display: grid; gap: 1rem; }
+    @media (min-width: 768px) { .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    label { display: block; font-weight: 700; margin-bottom: .5rem; }
+    .hint { color: #334155; font-size: .9rem; margin-top: .35rem; }
+    .select, .button, .input {
+      width: 100%; border-radius: .9rem; border: 1px solid #c7d2fe; background: #fff; padding: .9rem 1rem; font-size: 1rem;
+      outline: none; transition: box-shadow 160ms ease, border-color 160ms ease, transform 90ms ease;
+    }
+    .select:focus, .input:focus { border-color: #7c3aed; box-shadow: 0 0 0 6px rgba(124, 58, 237, .12); }
+    .button { font-weight: 800; color: white; background: linear-gradient(135deg, #4f46e5, #7c3aed); border: none; cursor: pointer; }
+    .button:hover { filter: brightness(1.05); transform: translateY(-1px); }
+    .button:active { transform: translateY(0); }
+    .button--muted { background: #e2e8f0; color: #111827; }
+    .pill { display: inline-flex; align-items: center; gap: .4rem; font-size: .85rem; font-weight: 700; padding: .35rem .75rem; border-radius: 999px; background: #eef2ff; color: #3730a3; border: 1px solid #c7d2fe; }
+    .stage { display: none; animation: fadeIn 240ms ease; }
+    .stage.active { display: block; }
+    .notice { border: 1px solid #fecaca; background: #fff1f2; color: #7f1d1d; padding: .9rem 1rem; border-radius: .75rem; }
+    .success { border: 1px solid #bbf7d0; background: #ecfdf5; color: #064e3b; padding: .9rem 1rem; border-radius: .75rem; }
+    .error { color: #b91c1c; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <main class="card" role="main" aria-labelledby="appTitle">
+      <header class="card__header">
+        <h1 id="appTitle" class="title">Europe Experiment Router</h1>
+        <p class="subtitle">Experiment Randomizer</p>
+      </header>
+
+      <section class="card__body">
+        <div id="stage1" class="stage active" aria-live="polite">
+          <div class="notice" role="alert" aria-live="assertive" style="margin-bottom:1rem;">
+            <strong>Important:</strong> Participate only once. Duplicate entry into this experiment automatically disqualifies you from any form of payment, whether base or bonus.
+          </div>
+
+          <div class="grid grid-cols-2">
+            <div>
+              <label for="mturkId">Step 0 — Enter your MTurk Worker ID</label>
+              <input id="mturkId" class="input" type="text" inputmode="latin" autocomplete="off"
+                     placeholder="e.g., A1BC2D3EFGH45" aria-describedby="mturkHelp" required>
+              <p id="mturkHelp" class="hint">This ID will be logged separately from the experiment data.</p>
+            </div>
+
+            <div>
+              <label for="country">Step 1 — Select your country of residence</label>
+              <select id="country" class="select" required>
+                <option value="" selected>— Select your country —</option>
+                <option>Albania</option><option>Andorra</option><option>Armenia</option><option>Austria</option>
+                <option>Azerbaijan</option><option>Belarus</option><option>Belgium</option><option>Bosnia and Herzegovina</option>
+                <option>Bulgaria</option><option>Croatia</option><option>Cyprus</option><option>Czechia (Czech Republic)</option>
+                <option>Denmark</option><option>Estonia</option><option>Finland</option><option>France</option>
+                <option>Georgia</option><option>Germany</option><option>Greece</option><option>Hungary</option>
+                <option>Iceland</option><option>Ireland</option><option>Israel</option><option>Italy</option>
+                <option>Kazakhstan</option><option>Kosovo</option><option>Latvia</option><option>Liechtenstein</option>
+                <option>Lithuania</option><option>Luxembourg</option><option>Malta</option><option>Moldova</option>
+                <option>Monaco</option><option>Montenegro</option><option>Netherlands</option><option>North Macedonia</option>
+                <option>Norway</option><option>Poland</option><option>Portugal</option><option>Romania</option>
+                <option>Russia</option><option>San Marino</option><option>Serbia</option><option>Slovakia</option>
+                <option>Slovenia</option><option>Spain</option><option>Sweden</option><option>Switzerland</option>
+                <option>Turkey</option><option>Ukraine</option><option>United Kingdom</option><option>Vatican City</option>
+              </select>
+              <p class="hint">This will route you to the appropriate regional experiment.</p>
+            </div>
+
+            <div>
+              <label>Participation confirmation</label>
+              <div class="success">
+                By continuing, I confirm that I am eligible to participate and consent to proceed to the experiment routing step.
+              </div>
+              <p class="hint">No personal data is stored on this page; you will be redirected to the study host.</p>
+            </div>
+          </div>
+
+          <div style="margin-top:1rem; display:flex; gap:.75rem; align-items:center;">
+            <button id="continueBtn" class="button" type="button">Continue</button>
+            <button id="resetBtn" class="button" type="button" aria-label="Reset form">Reset</button>
+          </div>
+          <div id="screeningMsg" class="hint" style="margin-top:.75rem;"></div>
+        </div>
+
+        <div id="stage2" class="stage" aria-live="polite">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:.5rem;">
+            <span class="pill" id="regionPill">Region</span>
+            <button class="button button--muted" type="button" id="backBtn">← Go back</button>
+          </div>
+          <h2 style="margin:0 0 .25rem 0; font-size:1.5rem; font-weight:900;">Step 2 — Select an experiment</h2>
+          <p class="hint" style="margin-bottom:1rem;">Click the button below to be assigned to an experiment.</p>
+
+          <div class="grid grid-cols-2" style="align-items:flex-start;">
+            <div>
+              <button id="assignBtn" class="button" type="button">Select an experiment</button>
+              <div id="assignMsg" class="hint" style="margin-top:.75rem;"></div>
+            </div>
+            <div></div>
+          </div>
+        </div>
+
+        <div id="stageIneligible" class="stage" aria-live="polite">
+          <div class="notice">
+            <strong>I'm sorry, you cannot participate in this experiment.</strong>
+            <div class="hint" style="margin-top:.5rem;">Your selected country is not part of the eligible regions for this study.</div>
+          </div>
+          <div style="margin-top:.75rem;"><button class="button button--muted" type="button" id="restartBtn">Start over</button></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const LOG_ENDPOINT = "/mturk/log/";
+
+    const EXPERIMENT_LINKS = {
+      EASTERN: [
+        "https://ai-noise1-pattern-4daac5ed8a4a.herokuapp.com/join/sumatato",
+        "https://ai-seasonal2-pattern-9479056a4df3.herokuapp.com/join/fupahiri",
+        "https://ais-m-pattern-a95f6c31c118.herokuapp.com/join/nivenuze",
+        "https://trad-noise1-pattern-471105a241fc.herokuapp.com/join/kekivojo",
+        "https://trad-seasonal3-pattern-2cea616568d4.herokuapp.com/join/midilote",
+        "https://trad-sim-patter-e5e6f91aef2e.herokuapp.com/join/lugobepe"
+      ],
+      NORTHERN_GERMANIC: [
+        "https://ai-noise1-pattern-4daac5ed8a4a.herokuapp.com/join/jaleraru",
+        "https://ai-seasonal2-pattern-9479056a4df3.herokuapp.com/join/tareravo",
+        "https://ais-m-pattern-a95f6c31c118.herokuapp.com/join/jelovoho",
+        "https://trad-noise1-pattern-471105a241fc.herokuapp.com/join/fonakema",
+        "https://trad-seasonal3-pattern-2cea616568d4.herokuapp.com/join/tupufedu",
+        "https://trad-sim-patter-e5e6f91aef2e.herokuapp.com/join/zetuteji"
+      ],
+      LATIN: [
+        "https://ai-noise1-pattern-4daac5ed8a4a.herokuapp.com/join/fijodubi",
+        "https://ai-seasonal2-pattern-9479056a4df3.herokuapp.com/join/tufuguko",
+        "https://ais-m-pattern-a95f6c31c118.herokuapp.com/join/jamaviju",
+        "https://trad-noise1-pattern-471105a241fc.herokuapp.com/join/dekijano",
+        "https://trad-seasonal3-pattern-2cea616568d4.herokuapp.com/join/rakojoze",
+        "https://trad-sim-patter-e5e6f91aef2e.herokuapp.com/join/bazakute"
+      ]
+    };
+
+    const REGIONS = {
+      EASTERN: "Eastern Europe",
+      NORTHERN_GERMANIC: "Northern & Germanic Europe",
+      LATIN: "Latin Europe"
+    };
+
+    const EASTERN_COUNTRIES = new Set(["Hungary","Russia","Kazakhstan","Albania","Poland","Greece","Slovenia","Czechia (Czech Republic)","Georgia"]);
+    const NORTHERN_GERMANIC_COUNTRIES = new Set(["Denmark","Finland","Sweden","Latvia","Germany","Austria","Netherlands","Switzerland","Belgium"]);
+    const LATIN_COUNTRIES = new Set(["Israel","Italy","Portugal","Spain","France"]);
+
+    function normalizeCountry(name){
+      if(!name) return "";
+      const n = String(name).trim();
+      const m = new Map([["Czech Republic","Czechia (Czech Republic)"],["the Netherlands","Netherlands"],["UK","United Kingdom"]]);
+      return m.get(n) || n;
+    }
+    function countryToRegion(country){
+      const c = normalizeCountry(country);
+      if (EASTERN_COUNTRIES.has(c)) return "EASTERN";
+      if (NORTHERN_GERMANIC_COUNTRIES.has(c)) return "NORTHERN_GERMANIC";
+      if (LATIN_COUNTRIES.has(c)) return "LATIN";
+      return null;
+    }
+
+    function randomInt(maxExclusive){
+      if (window.crypto && window.crypto.getRandomValues){
+        const a = new Uint32Array(1); window.crypto.getRandomValues(a); return a[0] % maxExclusive;
+      }
+      return Math.floor(Math.random()*maxExclusive);
+    }
+    function pickExperimentLink(regionKey){
+      const arr = EXPERIMENT_LINKS[regionKey] || [];
+      if (!arr.length || arr.some(x => typeof x !== 'string')) return {ok:false, reason:'not_configured'};
+      const filled = arr.filter(Boolean);
+      if (filled.length < 6) return {ok:false, reason:'missing_links'};
+      const idx = randomInt(6);
+      return {ok:true, idx, url:filled[idx]};
+    }
+
+    function logToServer(data){
+      try{
+        const blob = new Blob([JSON.stringify(data)], {type:"application/json"});
+        if (navigator.sendBeacon){
+          navigator.sendBeacon(LOG_ENDPOINT, blob);
+        } else {
+          fetch(LOG_ENDPOINT, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data), keepalive:true }).catch(()=>{});
+        }
+      } catch(_){}
+    }
+
+    const stage1 = document.getElementById('stage1');
+    const stage2 = document.getElementById('stage2');
+    const stageIneligible = document.getElementById('stageIneligible');
+    const mturkInput = document.getElementById('mturkId');
+    const countrySel = document.getElementById('country');
+    const continueBtn = document.getElementById('continueBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const screeningMsg = document.getElementById('screeningMsg');
+    const assignBtn = document.getElementById('assignBtn');
+    const assignMsg = document.getElementById('assignMsg');
+    const regionPill = document.getElementById('regionPill');
+    const backBtn = document.getElementById('backBtn');
+    const restartBtn = document.getElementById('restartBtn');
+
+    let activeRegionKey = null;
+
+    function show(el){ el.classList.add('active'); }
+    function hide(el){ el.classList.remove('active'); }
+    function gotoStage(stage){
+      hide(stage1); hide(stage2); hide(stageIneligible);
+      if (stage===1){ show(stage1); mturkInput?.focus(); }
+      if (stage===2){ show(stage2); assignBtn?.focus(); }
+      if (stage==='ineligible'){ show(stageIneligible); }
+    }
+    function setRegionUI(regionKey){
+      activeRegionKey = regionKey;
+      regionPill.textContent = REGIONS[regionKey] || 'Region';
+      assignMsg.textContent = '';
+    }
+
+    continueBtn.addEventListener('click', ()=>{
+      const mturkId = (mturkInput.value || '').trim();
+      const c = countrySel.value;
+
+      if (!mturkId){
+        screeningMsg.textContent = 'Please enter your MTurk Worker ID to continue.'; screeningMsg.classList.add('error'); mturkInput.focus(); return;
+      }
+      screeningMsg.classList.remove('error');
+      if (!c){ screeningMsg.textContent = 'Please select your country to continue.'; screeningMsg.classList.add('error'); countrySel.focus(); return; }
+
+      sessionStorage.setItem('mturkId', mturkId);
+      sessionStorage.setItem('country', c);
+
+      const regionKey = countryToRegion(c);
+      if (!regionKey){ gotoStage('ineligible'); return; }
+      setRegionUI(regionKey);
+      gotoStage(2);
+    });
+
+    resetBtn.addEventListener('click', ()=>{
+      mturkInput.value = ""; countrySel.value = ""; screeningMsg.textContent = ""; screeningMsg.classList.remove('error');
+      sessionStorage.removeItem('mturkId'); sessionStorage.removeItem('country'); mturkInput.focus();
+    });
+
+    backBtn.addEventListener('click', ()=> gotoStage(1));
+    restartBtn?.addEventListener('click', ()=>{
+      mturkInput.value = ""; countrySel.value = ""; screeningMsg.textContent = ""; screeningMsg.classList.remove('error');
+      sessionStorage.removeItem('mturkId'); sessionStorage.removeItem('country'); gotoStage(1);
+    });
+
+    assignBtn.addEventListener('click', ()=>{
+      if (!activeRegionKey) return;
+
+      const mturkId = (sessionStorage.getItem('mturkId') || mturkInput.value || '').trim();
+      const country = sessionStorage.getItem('country') || countrySel.value;
+      if (!mturkId){ assignMsg.textContent = '⚠️ Please go back and enter your MTurk ID.'; return; }
+
+      const pick = pickExperimentLink(activeRegionKey);
+      if (!pick.ok){ assignMsg.innerHTML = '⚠️ Setup needed for this region.'; return; }
+
+      logToServer({
+        mturk_id: mturkId,
+        country: country,
+        region: REGIONS[activeRegionKey] || activeRegionKey,
+        region_key: activeRegionKey,
+        assigned_url: pick.url,
+        assigned_idx: pick.idx
+      });
+
+      assignMsg.textContent = 'Assigning you now…';
+      setTimeout(()=>{ window.location.href = pick.url; }, 200); // no mturk_id in URL
+    });
+
+    const savedId = sessionStorage.getItem('mturkId'); if (savedId) mturkInput.value = savedId;
+    const savedC = sessionStorage.getItem('country'); if (savedC) countrySel.value = savedC;
+    mturkInput.addEventListener('input', ()=> sessionStorage.setItem('mturkId', (mturkInput.value||'').trim()));
+    countrySel.addEventListener('change', ()=> sessionStorage.setItem('country', countrySel.value));
+  </script>
+</body>
+</html>
